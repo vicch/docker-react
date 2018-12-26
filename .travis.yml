@@ -8,3 +8,16 @@ before_install:
 
 script:
   - docker run vicch/docker-react npm run test -- --coverage
+
+deploy:
+  on:
+    branch: master # Only deploy when merging into master branch
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-east-1-607854156336" # S3 bucket name
+  bucket_path: "docker-react"                            # S3 sub-directory name
+  access_key_id: $AWS_ACCESS_KEY                         # Setup as env var on Travis CI
+  secret_access_key:
+    secure: $AWS_SECRET_ACCESS_KEY
